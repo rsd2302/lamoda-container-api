@@ -7,6 +7,22 @@ info:
 servers:
   - url: http://rsd23.com/lamoda/container-api/v1
 paths:
+  /ping:
+    get:
+      summary: Ping application
+      responses:
+        '200':
+          description: Application is working
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Ping"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /containers:
     get:
       summary: List all containers
@@ -114,4 +130,7 @@ components:
           type: integer
           format: int32
         message:
+          type: string
+    Ping:
+        status:
           type: string
