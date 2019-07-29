@@ -43,16 +43,18 @@ class ContainersApi extends Controller
      */
     public function listContainers(Request $request)
     {
-        $page = $request->input('page', 1) - 1;
+        $page = $request->input('page', 1);
 
         $containers = app('db')->table('containers')->select('*')
         ->take(self::DEFAULT_CONTAINERS_LIMIT)
-        ->skip($page*self::DEFAULT_CONTAINERS_LIMIT)
+        ->skip($page*self::DEFAULT_CONTAINERS_LIMIT - 1)
         ->get()->map(function($item) {
             // В ответе не нужно показывать внутрений ID документа
             unset($item['_id']);
             return $item;
         });
+
+        header(sprintf('X-next: %s', $request->fullUrlWithQuery(['page' => ++$page])));
 
         return response()->json($containers);
     }
