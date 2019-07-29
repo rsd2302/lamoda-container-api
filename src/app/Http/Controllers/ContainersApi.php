@@ -27,7 +27,7 @@ class ContainersApi extends Controller
 
         $container = app('db')->table('containers')->insert($request->only('id', 'name', 'products'));
 
-        return $this->showContainerById($request->id);
+        return $this->showContainerById($request->id)->setStatusCode(201);
     }
 
     /**
