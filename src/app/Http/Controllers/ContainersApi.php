@@ -7,12 +7,16 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class ContainersApi extends Controller
 {
+    /**
+     * Стандартный лимит для списка контейнеров
+     */
     const DEFAULT_CONTAINERS_LIMIT = 100;
 
     /**
      * Operation createContainers
      * Create a container.
      *
+     * @param  Request
      * @return Http response
      */
     public function createContainers(Request $request)
@@ -34,6 +38,7 @@ class ContainersApi extends Controller
      * Operation listContainers
      * List all containers.
      *
+     * @param  Request
      * @return Http response
      */
     public function listContainers(Request $request)
@@ -44,6 +49,7 @@ class ContainersApi extends Controller
         ->take(self::DEFAULT_CONTAINERS_LIMIT)
         ->skip($page*self::DEFAULT_CONTAINERS_LIMIT)
         ->get()->map(function($item) {
+            // В ответе не нужно показывать внутрений ID документа
             unset($item['_id']);
             return $item;
         });
@@ -63,6 +69,7 @@ class ContainersApi extends Controller
         $container = app('db')->table('containers')
         ->where('id', (int)$containerId)
         ->get()->map(function($item) {
+            // В ответе не нужно показывать внутрений ID документа
             unset($item['_id']);
             return $item;
         })->first();
