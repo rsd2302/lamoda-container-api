@@ -47,7 +47,7 @@ class ContainersApi extends Controller
 
         $containers = app('db')->table('containers')->select('*')
         ->take(self::DEFAULT_CONTAINERS_LIMIT)
-        ->skip($page*self::DEFAULT_CONTAINERS_LIMIT - 1)
+        ->skip($page*self::DEFAULT_CONTAINERS_LIMIT - 1*self::DEFAULT_CONTAINERS_LIMIT)
         ->get()->map(function($item) {
             // В ответе не нужно показывать внутрений ID документа
             unset($item['_id']);
