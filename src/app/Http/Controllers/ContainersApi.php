@@ -21,6 +21,7 @@ class ContainersApi extends Controller
      */
     public function createContainers(Request $request)
     {
+        app('log')->info($request);
         $this->validate($request, [
             'id' => 'required|integer|unique:containers',
             'name' => 'required',
@@ -77,5 +78,17 @@ class ContainersApi extends Controller
         })->first();
 
         return response()->json($container);
+    }
+
+    /**
+     * Удаление всех контейнеров
+     *
+     * @return Http response
+     */
+    public function dropContainers()
+    {
+        $container = app('db')->table('containers')->delete();
+
+        return response()->json([]);
     }
 }
