@@ -8,6 +8,8 @@ RUN apk --update add gcc make g++ zlib-dev
 RUN pecl install mongodb \
 	&& docker-php-ext-enable mongodb
 
+RUN apk del buildDeps autoconf gcc make g++ zlib-dev
+
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 COPY src /app
